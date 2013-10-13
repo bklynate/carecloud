@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  start_time: 2013-10-12 17:47:00
+  end_time: 2013-10-12 17:47:00
+  first_name: MyString
+  last_name: MyString
+  comments: MyText
+
+two:
+  start_time: 2013-10-12 17:47:00
+  end_time: 2013-10-12 17:47:00
+  first_name: MyString
+  last_name: MyString
+  comments: MyText
