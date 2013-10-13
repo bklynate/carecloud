@@ -1,32 +1,52 @@
 class Api::ReservationsController < ApplicationController
 
+  # url for list all appointments in a time range i.e. /api/reservations/201101130700/201102130700, will return all appointments if no parameters given
   def list
 
-    start_time=params[:start_time] if params[:start_time]
-    end_time=params[:end_time] if params[:end_time]
-    sort_by=params[:sort_by]?parms[:sort_by] : "start_time"
+    start_time=convert_input(params[:start_time]) if params[:start_time]
+    end_time=convert_input(params[:end_time]) if params[:end_time]
+    sort_by=params[:sort_by]? params[:sort_by] : "start_time"
 
-    if !start_time.nil? and !end_time.nil? and end_time>start_time
-        selected_appointments=Appointment.where(:start_time>=start_time,:end_time<=end_time)
+    if !start_time.nil? and !end_time.nil?
+
+        if end_time>start_time
+            raw_data=Appointment.where("start_time>=? AND end_time<=?",start_time,end_time)
+        else
+            raw_data=[]
+        end
+
+    elsif !start_time.nil?
+        raw_data=Appointment.where("start_time>=?",start_time)
+
     else
-        selected_appointments=Appointment.all.select{|appointment| appointment.send('is_valid_appointment') }
+        raw_data=Appointment.all
+
     end
 
+    if !raw_data.empty?
+        selected_appointments=raw_data.select{|appointment| appointment.send('is_valid_appointment') }
 
-    # sort appointments by sort_by criteria, default by "start_time" and grouped by date for easy reference
+        # sort appointments by sort_by criteria, default by "start_time" and grouped by date for easy reference
 
-    sorted_appointments= sort_results(selected_appointments,sort_by)
-    grouped_selected_appointments=sorted_appointments.group_by{|appointment| appointment.send('appointment_date')}
+        sorted_appointments= sort_results(selected_appointments,sort_by)
+        grouped_selected_appointments=sorted_appointments.group_by{|appointment| appointment.send('appointment_date')}
 
-    # delete unnecessary meta data and data with empty value to downsize data sent
-    @selected_appointments=grouped_selected_appointments.map{|k,v| build_item(k,v)}
+        # delete unnecessary meta data and data with empty value to downsize data sent
+        @selected_appointments=grouped_selected_appointments.map{|k,v| build_item(k,v)}
 
-    result={"total_appointments"=>sorted_appointments.size,
-            "total_appointments_dates"=>@selected_appointments.size,
-            "start_time"=>start_time,
-            "end_time"=>end_time,"sort_by"=>"start_time",
-            "appointments"=>@selected_appointments}.delete_if{|k,v| v.nil?}
+        result={
+                "total_appointments"=>raw_data.size,
+                "valid_appointments"=>sorted_appointments.size,
+                "total_appointments_dates"=>@selected_appointments.size,
+                "start_time"=>start_time,
+                "end_time"=>end_time,"sort_by"=>"start_time",
+                "appointments"=>@selected_appointments
+                }.delete_if{|k,v| v.nil?}
+    else
 
+      result={"error"=>"Please check your start time and end time and try again."}
+
+    end
 
     render json: result, status: :ok
 
@@ -56,6 +76,10 @@ class Api::ReservationsController < ApplicationController
     }.delete_if{|k,v| v==0}
 
 
+  end
+
+  def convert_input(input)
+    DateTime.iso8601(input)
   end
 
 

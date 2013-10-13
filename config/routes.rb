@@ -7,7 +7,7 @@ AppointmentServices::Application.routes.draw do
     # User API
 
       controller :reservations do
-        get 'reservations(/:start_time/:end_time)', :action=>'list'
+        get 'reservations(/:start_time(/:end_time))', :action=>'list'
       end
 
 
