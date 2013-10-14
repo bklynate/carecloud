@@ -73,9 +73,9 @@ class API::AppointmentsController < ApplicationController
         render json: result, status: :ok
     else
 
-      result = {"error"=>"Please check your start time and end time and try again."}
+      result = {"error"=>"start_time and end_time are invalid."}
 
-      render json: result, status: :aad_request
+      render json: result, status: :bad_request
 
     end
 
@@ -118,11 +118,15 @@ class API::AppointmentsController < ApplicationController
 
             result={"message" => "The appointment of #{@appointment.first_name} #{@appointment.last_name} at #{@appointment.start_time} has been successfully deleted."}
         end
+
+        render json:result, status: :accepted
     else
         result={'error' => "No appointment has been specified"}
+
+        render json:result, status: :bad_request
     end
 
-    render json:result, status: :accepted
+
 
   rescue ActiveRecord::RecordNotFound
     error_message = "This appointment you are trying to delete doesn't exist"
