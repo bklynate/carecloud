@@ -6,12 +6,14 @@ class Appointment < ActiveRecord::Base
 
   validates :first_name, :presence => true
   validates :last_name, :presence => true
-  validates :start_time, :presence => true,:uniqueness=>true
-  validates :end_time, :presence => true, :uniqueness=>true
+  validates :start_time, :presence => true, :uniqueness=>true
+  validates :end_time, :presence => true , :uniqueness=>true
 
 
   validates_each :start_time, :end_time do |model, attr, value|
-    model.errors.add(attr, 'appointment time must start in future') if value<Time.now
+    if (!value.nil?)
+      model.errors.add(attr, 'appointment time must start in future') if value<Time.now
+    end
   end
 
   def appointment_date

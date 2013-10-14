@@ -2,8 +2,7 @@ class API::AppointmentsController < ApplicationController
 
   # post /api/appointments
   def create
-
-    params[:appointment]={
+   appointment={
         :start_time =>params[:start_time],
         :end_time =>params[:end_time],
         :first_name =>params[:first_name],
@@ -11,7 +10,7 @@ class API::AppointmentsController < ApplicationController
         :comments =>params[:comments]
       }
 
-    @appointment = Appointment.new(params[:appointment])
+    @appointment = Appointment.new(appointment)
 
     if @appointment.save
 
@@ -70,21 +69,24 @@ class API::AppointmentsController < ApplicationController
                 "end_time" =>end_time,"sort_by"=>"start_time",
                 "appointments" =>@selected_appointments
                 }.delete_if{|k,v| v.nil?}
+
+        render json: result, status: :ok
     else
 
       result = {"error"=>"Please check your start time and end time and try again."}
 
+      render json: result, status: :aad_request
+
     end
 
-    render json: result, status: :ok
+
 
   end
 
   # put /api/appointments/:id
-
   def update
 
-    params[:appointment] = {
+    appointment = {
         :start_time =>params[:start_time],
         :end_time =>params[:end_time],
         :first_name =>params[:first_name],
@@ -94,9 +96,9 @@ class API::AppointmentsController < ApplicationController
 
     @appointment = Appointment.find(params[:id])
 
-      if @appointment.update_attributes(params[:appointment])
+      if @appointment.update_attributes(appointment)
         result ={"appointment" =>@appointment}
-        render json: result, status: :ok
+        render json: result, status: :accepted
       else
         result = {"error" => @appointment.errors}
         render json: result, status: :unprocessable_entity
@@ -111,24 +113,22 @@ class API::AppointmentsController < ApplicationController
 
         @appointment = Appointment.find(appointment_id)
 
-        if @appointment
+        if !@appointment.nil?
             @appointment.destroy
-        else
-            error_message = "This appointment you are trying to delete doesn't exist"
+
+            result={"message" => "The appointment of #{@appointment.first_name} #{@appointment.last_name} at #{@appointment.start_time} has been successfully deleted."}
         end
-
-
-        if error_message
-          result={'error' => error_message}
-        else
-          result={"message" => "The appointment of #{@appointment.first_name} #{@appointment.last_name} at #{@appointment.start_time} has been successfully deleted."}
-        end
-
     else
         result={'error' => "No appointment has been specified"}
     end
 
-    render json:result, status: :ok
+    render json:result, status: :accepted
+
+  rescue ActiveRecord::RecordNotFound
+    error_message = "This appointment you are trying to delete doesn't exist"
+    result={"error"=>error_message}
+    render json:result, status: :unprocessable_entity
+
   end
 
 
