@@ -56,7 +56,7 @@ Appointment Service APIs
           console.log(r);
         }
       });
-
+   ```
 
 
   **List Appointments**
@@ -208,7 +208,7 @@ Appointment Service APIs
           console.log(r);
         }
       });
-
+     ```
    **Delete Appointment**
         ----
           Delete an appointment.
@@ -256,4 +256,4 @@ Appointment Service APIs
                 console.log(r);
               }
             });
-
+          ```
