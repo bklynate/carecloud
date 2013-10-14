@@ -1,17 +1,18 @@
 AppointmentServices::Application.routes.draw do
+
   resources :appointments
 
   #Api routes
   namespace 'api' do
 
-    # User API
+      controller :appointments do
 
-      controller :reservations do
-        get 'reservations(/:start_time(/:end_time))', :action=>'list'
+        post 'appointments', :action=>:create
+        get 'appointments(/:start_time(/:end_time))', :action=>:list
+        delete 'appointments/:id', :action=>:destroy
+        put 'appointments/:id', :action=>:update
+
       end
-
-
-
   end
 
 
