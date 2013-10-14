@@ -208,7 +208,8 @@ Appointment Service APIs
           console.log(r);
         }
       });
-     ```
+
+    ```
    **Delete Appointment**
         ----
           Delete an appointment.
