@@ -1,61 +1,61 @@
 Appointment Service APIs
 =========
-      **Create Appointment**
-      ----
-        Create an appointment with new data.
+  **Create Appointment**
+  ----
+    Create an appointment with new data.
 
-      * **URL**
+  * **URL**
 
-        /api/appointments
+    /api/appointments
 
-      * **Method:**
+  * **Method:**
 
-        `POST`
+    `POST`
 
-      *  **URL Params**
+  *  **URL Params**
 
-         **Required:**
-         start_time=[datetime]
-         end_time=[datetime]
-         first_name=[string]
-         last_name=[string]
-         comments=[text]
-      * **Data Params**
+     **Required:**
+     start_time=[datetime]
+     end_time=[datetime]
+     first_name=[string]
+     last_name=[string]
+     comments=[text]
+  * **Data Params**
 
-        None
+    None
 
-      * **Success Response:**
+  * **Success Response:**
 
-        * **Code:** 201 <br />
-          **Content:** `{
-                            "appointment": {
-                                "comments": "",
-                                "created_at": "2013-10-13T02:23:07Z",
-                                "end_time": "2013-12-09T10:30:00Z",
-                                "first_name": "jason",
-                                "id": 168,
-                                "last_name": "jiang",
-                                "start_time": "2013-12-09T09:30:00Z",
-                                "updated_at": "2013-10-14T22:08:54Z"
-                            }
-                        }`
+    * **Code:** 201 <br />
+      **Content:** `{
+                        "appointment": {
+                            "comments": "",
+                            "created_at": "2013-10-13T02:23:07Z",
+                            "end_time": "2013-12-09T10:30:00Z",
+                            "first_name": "jason",
+                            "id": 168,
+                            "last_name": "jiang",
+                            "start_time": "2013-12-09T09:30:00Z",
+                            "updated_at": "2013-10-14T22:08:54Z"
+                        }
+                    }`
 
-      * **Error Response:**
+  * **Error Response:**
 
-        * **Code:** 422 Unprocessable Entity <br />
-          **Content:** `{ error : {"start_time":['can't be blank','has already been taken','appointment time must start in future']} }`
+    * **Code:** 422 Unprocessable Entity <br />
+      **Content:** `{ error : {"start_time":['can't be blank','has already been taken','appointment time must start in future']} }`
 
-      * **Sample Call:**
+  * **Sample Call:**
 
-        ```javascript
-          $.ajax({
-            url: "/api/appointments",
-            dataType: "json",
-            type : "POST",
-            success : function(r) {
-              console.log(r);
-            }
-          });
+    ```javascript
+      $.ajax({
+        url: "/api/appointments",
+        dataType: "json",
+        type : "POST",
+        success : function(r) {
+          console.log(r);
+        }
+      });
 
 
 
@@ -149,111 +149,111 @@ Appointment Service APIs
       });
     ```
 
-      **Update Appointment**
-      ----
-        Update an appointment with new data.
+  **Update Appointment**
+  ----
+    Update an appointment with new data.
 
-      * **URL**
+  * **URL**
 
-        /api/appointments/:id
+    /api/appointments/:id
 
-      * **Method:**
+  * **Method:**
 
-        `PUT`
+    `PUT`
 
-      *  **URL Params**
+  *  **URL Params**
 
-         **Required:**
+     **Required:**
+       id=[integer]
+
+     **Optional:**
+     start_time=[datetime]
+     end_time=[datetime]
+     first_name=[string]
+     last_name=[string]
+     comments=[text]
+  * **Data Params**
+
+    None
+
+  * **Success Response:**
+
+    * **Code:** 202 <br />
+      **Content:** `{
+                        "appointment": {
+                            "comments": "",
+                            "created_at": "2013-10-13T02:23:07Z",
+                            "end_time": "2013-12-09T10:30:00Z",
+                            "first_name": "jason",
+                            "id": 168,
+                            "last_name": "jiang",
+                            "start_time": "2013-12-09T09:30:00Z",
+                            "updated_at": "2013-10-14T22:08:54Z"
+                        }
+                    }`
+
+  * **Error Response:**
+
+    * **Code:** 422 Unprocessable Entity <br />
+      **Content:** `{ error : {"start_time":['can't be blank','has already been taken','appointment time must start in future']} }`
+
+  * **Sample Call:**
+
+    ```javascript
+      $.ajax({
+        url: "/api/appointments/168",
+        dataType: "json",
+        type : "PUT",
+        success : function(r) {
+          console.log(r);
+        }
+      });
+
+   **Delete Appointment**
+        ----
+          Delete an appointment.
+
+        * **URL**
+
+          /api/appointments/:id
+
+        * **Method:**
+
+          `DELETE`
+
+        *  **URL Params**
+
+           **Required:**
            id=[integer]
+        * **Data Params**
 
-         **Optional:**
-         start_time=[datetime]
-         end_time=[datetime]
-         first_name=[string]
-         last_name=[string]
-         comments=[text]
-      * **Data Params**
+          None
 
-        None
+        * **Success Response:**
 
-      * **Success Response:**
+          * **Code:** 201 <br />
+            **Content:** `{
+                             {"message" => "The appointment of Jason Jiang at 2013-10-13T02:23:07Z has been successfully deleted."}
+                          }`
 
-        * **Code:** 202 <br />
-          **Content:** `{
-                            "appointment": {
-                                "comments": "",
-                                "created_at": "2013-10-13T02:23:07Z",
-                                "end_time": "2013-12-09T10:30:00Z",
-                                "first_name": "jason",
-                                "id": 168,
-                                "last_name": "jiang",
-                                "start_time": "2013-12-09T09:30:00Z",
-                                "updated_at": "2013-10-14T22:08:54Z"
-                            }
-                        }`
+        * **Error Response:**
 
-      * **Error Response:**
+          * **Code:** 422 Unprocessable Entity <br />
+            **Content:** `{ error : "This appointment you are trying to delete doesn't exist" }`
 
-        * **Code:** 422 Unprocessable Entity <br />
-          **Content:** `{ error : {"start_time":['can't be blank','has already been taken','appointment time must start in future']} }`
-
-      * **Sample Call:**
-
-        ```javascript
-          $.ajax({
-            url: "/api/appointments/168",
-            dataType: "json",
-            type : "PUT",
-            success : function(r) {
-              console.log(r);
-            }
-          });
-
-           **Delete Appointment**
-                ----
-                  Delete an appointment.
-
-                * **URL**
-
-                  /api/appointments/:id
-
-                * **Method:**
-
-                  `DELETE`
-
-                *  **URL Params**
-
-                   **Required:**
-                   id=[integer]
-                * **Data Params**
-
-                  None
-
-                * **Success Response:**
-
-                  * **Code:** 201 <br />
-                    **Content:** `{
-                                     {"message" => "The appointment of Jason Jiang at 2013-10-13T02:23:07Z has been successfully deleted."}
-                                  }`
-
-                * **Error Response:**
-
-                  * **Code:** 422 Unprocessable Entity <br />
-                    **Content:** `{ error : "This appointment you are trying to delete doesn't exist" }`
-
-                    **Code:** 400 Bad Request <br />
-                    **Content:** `{ error : "No appointment has been specified" }`
+            **Code:** 400 Bad Request <br />
+            **Content:** `{ error : "No appointment has been specified" }`
 
 
-                * **Sample Call:**
+        * **Sample Call:**
 
-                  ```javascript
-                    $.ajax({
-                      url: "/api/appointments/168",
-                      dataType: "json",
-                      type : "delete",
-                      success : function(r) {
-                        console.log(r);
-                      }
-                    });
+          ```javascript
+            $.ajax({
+              url: "/api/appointments/168",
+              dataType: "json",
+              type : "delete",
+              success : function(r) {
+                console.log(r);
+              }
+            });
 
