@@ -52,7 +52,6 @@ class API::AppointmentsController < ApplicationController
         selected_appointments = raw_data.select{|appointment| appointment.send('is_valid_appointment') }
 
         # sort appointments by sort_by criteria, default by "start_time" and grouped by date for easy reference
-
         sorted_appointments = sort_results(selected_appointments,sort_by)
 
         start_time = sorted_appointments.first.start_time
