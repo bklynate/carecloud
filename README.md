@@ -211,50 +211,50 @@ Appointment Service APIs
 
     ```
    **Delete Appointment**
-        ----
-          Delete an appointment.
+   ----
+      Delete an appointment.
 
-        * **URL**
+    * **URL**
 
-          /api/appointments/:id
+      /api/appointments/:id
 
-        * **Method:**
+    * **Method:**
 
-          `DELETE`
+      `DELETE`
 
-        *  **URL Params**
+    *  **URL Params**
 
-           **Required:**
-           id=[integer]
-        * **Data Params**
+       **Required:**
+       id=[integer]
+    * **Data Params**
 
-          None
+      None
 
-        * **Success Response:**
+    * **Success Response:**
 
-          * **Code:** 201 <br />
-            **Content:** `{
-                             {"message" => "The appointment of Jason Jiang at 2013-10-13T02:23:07Z has been successfully deleted."}
-                          }`
+      * **Code:** 201 <br />
+        **Content:** `{
+                         {"message" => "The appointment of Jason Jiang at 2013-10-13T02:23:07Z has been successfully deleted."}
+                      }`
 
-        * **Error Response:**
+    * **Error Response:**
 
-          * **Code:** 422 Unprocessable Entity <br />
-            **Content:** `{ error : "This appointment you are trying to delete doesn't exist" }`
+      * **Code:** 422 Unprocessable Entity <br />
+        **Content:** `{ error : "This appointment you are trying to delete doesn't exist" }`
 
-            **Code:** 400 Bad Request <br />
-            **Content:** `{ error : "No appointment has been specified" }`
+        **Code:** 400 Bad Request <br />
+        **Content:** `{ error : "No appointment has been specified" }`
 
 
-        * **Sample Call:**
+    * **Sample Call:**
 
-          ```javascript
-            $.ajax({
-              url: "/api/appointments/168",
-              dataType: "json",
-              type : "delete",
-              success : function(r) {
-                console.log(r);
-              }
-            });
-          ```
+      ```javascript
+        $.ajax({
+          url: "/api/appointments/168",
+          dataType: "json",
+          type : "delete",
+          success : function(r) {
+            console.log(r);
+          }
+        });
+      ```
