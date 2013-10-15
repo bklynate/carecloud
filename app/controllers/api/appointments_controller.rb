@@ -65,8 +65,9 @@ class API::AppointmentsController < ApplicationController
                 "total_appointments" =>raw_data.size,
                 "valid_appointments" =>sorted_appointments.size,
                 "total_appointments_dates" =>@selected_appointments.size,
-                "start_time" =>start_time,
-                "end_time" =>end_time,"sort_by"=>"start_time",
+                "from" =>start_time,
+                "to" =>end_time,
+                "sort_by"=>sort_by,
                 "appointments" =>@selected_appointments
                 }.delete_if{|k,v| v.nil?}
 
@@ -78,8 +79,6 @@ class API::AppointmentsController < ApplicationController
       render json: result, status: :bad_request
 
     end
-
-
 
   end
 
@@ -104,6 +103,11 @@ class API::AppointmentsController < ApplicationController
         render json: result, status: :unprocessable_entity
       end
 
+  rescue ActiveRecord::RecordNotFound
+    error_message = "This appointment you are trying to update doesn't exist"
+    result={"error"=>error_message}
+    render json:result, status: :unprocessable_entity
+
   end
 
   #delete /api/appointments/:id
@@ -117,9 +121,10 @@ class API::AppointmentsController < ApplicationController
             @appointment.destroy
 
             result={"message" => "The appointment of #{@appointment.first_name} #{@appointment.last_name} at #{@appointment.start_time} has been successfully deleted."}
+            render json:result, status: :accepted
         end
 
-        render json:result, status: :accepted
+
     else
         result={'error' => "No appointment has been specified"}
 
