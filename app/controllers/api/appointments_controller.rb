@@ -74,7 +74,7 @@ class API::AppointmentsController < ApplicationController
         render json: result, status: :ok
     else
 
-      result = {"error"=>"start_time and end_time are invalid."}
+      result = {"error"=>"time filter is invalid."}
 
       render json: result, status: :bad_request
 

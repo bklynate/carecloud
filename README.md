@@ -52,6 +52,7 @@ Appointment Service APIs
         url: "/api/appointments",
         dataType: "json",
         type : "POST",
+        data: {start_time: start_time, end_time: end_time,first_name:first_name,last_name:last_name,comments:comments},
         success : function(r) {
           console.log(r);
         }
@@ -142,6 +143,7 @@ Appointment Service APIs
       $.ajax({
         url: "/api/appointments/201101040730/2011081030",
         dataType: "json",
+        data: {start_time: start_time, end_time: end_time},
         type : "GET",
         success : function(r) {
           console.log(r);
@@ -203,6 +205,7 @@ Appointment Service APIs
       $.ajax({
         url: "/api/appointments/168",
         dataType: "json",
+        data: {start_time: start_time, end_time: end_time,first_name:first_name,last_name:last_name,comments:comments},
         type : "PUT",
         success : function(r) {
           console.log(r);
